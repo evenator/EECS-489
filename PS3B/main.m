@@ -30,9 +30,9 @@ T_des = [
 p_des = posvector(T_des);
 
 %Threshold for error
-thresh = .01;
+thresh = 28;
 %"Spring" Constant
-k = .001;
+k = .0001;
 
 %Initialize theta to all zeros
 theta = zeros(7,1);
@@ -54,9 +54,6 @@ while(norm(e) > thresh)
     old_norm = norm(e);
     %Recalculate Error
     e = p_des - posvector(T);
-    if(norm(e)>old_norm)
-        k = k/10;
-    end
     norm(e)
 end
 
