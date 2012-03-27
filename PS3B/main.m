@@ -30,12 +30,12 @@ T_des = [
 p_des = posvector(T_des);
 
 %Threshold for error
-thresh = 28;
+thresh = 30;
 %"Spring" Constant
 k = .0001;
 
-%Initialize theta to all zeros
-theta = zeros(7,1);
+%Initialize theta randomly
+theta = random('unif',zeros(7,1),2*pi*ones(7,1));
 
 %Get the initial tool position and Jacobian
 [T, J] = tooltransform(theta, DH);
@@ -58,6 +58,7 @@ while(norm(e) > thresh)
 end
 
 %Print Desired Theta List
-fid = fopen('solution.txt','w');
+fid = fopen('solution.txt','a');
+fprintf(fid,'\n');
 fprintf(fid,'%f ',theta);
 fclose(fid);
