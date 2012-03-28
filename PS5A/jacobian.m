@@ -1,4 +1,4 @@
-function [ J ] = jacobian( DH, theta )
+function [ J , p_n] = jacobian( DH, theta )
 %Detailed explanation goes here
 %Given Denavit Hartenburg Parameters and joint angles calculate the
 %Jacobian.
