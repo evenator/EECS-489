@@ -26,7 +26,7 @@ sdotMaxAcc=sdot;  %this was the first value of sdot that violated qddot constrai
 %check whether velocity constraint or accel constraint is more restrictive:
 sdotMax = sdotMaxVel;
 if sdotMaxAcc < sdotMaxVel
-    s_velLimAccVel=[sdotMaxAcc,sdotMaxVel] %debug output...found accel is limiting, not vel constraint
+    s_velLimAccVel=[sdotMaxAcc,sdotMaxVel]; %debug output...found accel is limiting, not vel constraint
     sdotMax = sdotMaxAcc;
 end
     
