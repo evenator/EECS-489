@@ -11,8 +11,8 @@ global DH
 
 %%%%%%%%%%%%%%% THESE ARE THE ONLY LINES YOU SHOULD EDIT IN THIS PROGRAM
 
-Ke=10;  %"mattress spring" environment stiffness
-Kpt=[4000 0; 0 4000]; %transmission springs;
+Ke = 10;  %"mattress spring" environment stiffness
+Kpt = [4000 0; 0 4000]; %transmission springs;
 
 %%%%%%%%%% END OF LINES TO EDIT IN THIS PROGRAM 
 
@@ -55,6 +55,9 @@ qmdot_hist=zeros(2,nsteps);
 ql_hist=zeros(2,nsteps);
 qldot_hist=zeros(2,nsteps);
 F_hist=zeros(2,nsteps);
+F_u_hist=zeros(2,nsteps);
+F_err_hist=zeros(2,nsteps);
+F_des_hist=zeros(2,nsteps);
 p_hist=zeros(2,nsteps);
 tau_hist=zeros(2,nsteps);
 time_hist=1:nsteps;
@@ -70,7 +73,7 @@ for i=1:nsteps
     p_hist(:,i)=Aout(1:2,4);    %store hand positions
     [ J ] = Jacobian( Amats );%compute the Jacobian
     Jp = J(1:2,1:2); %pull out the positional Jacobian, 2x2
-    tau=force_controller(Fdes,Fe,Jp,qmdot);  %joint torques are computed by your force-control algorithm
+    [tau, F_u_hist(:,i), F_err_hist(:,i), F_des_hist(:,i)]=force_controller(Fdes,Fe,Jp,qmdot);  %joint torques are computed by your force-control algorithm
     tau_hist(:,i)=tau; %save these for plotting
     %use the provided simulator to simulate robot dynamices with
     %intermittent contact; save the results in storage arrays
@@ -89,7 +92,7 @@ title('hand motion')
 
 figure(2);
 %force on the environment is negative of force on the hand
-plot(time_hist,-F_hist(1,:),'b',time_hist,-F_hist(2,:),'r');
+plot(time_hist,-F_hist(1,:),'b',time_hist,-F_hist(2,:),'r')%,time_hist, F_u_hist(1,:),'b*',time_hist,F_err_hist(1,:),'r*',time_hist, F_des_hist(1,:),'g');
 xlabel('time (ms)')
 ylabel('force (N)')
 title('force history: horizontal (b) and vertical (r)')
